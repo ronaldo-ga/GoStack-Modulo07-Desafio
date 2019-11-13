@@ -17,6 +17,10 @@ export const Container = styled.View`
     padding: 20px;
 `;
 
+export const LogoButton = styled.TouchableOpacity`
+    width: 200px;
+`;
+
 export const Logo = styled.Image.attrs({
     source: logo,
     resizeMode: 'cover',

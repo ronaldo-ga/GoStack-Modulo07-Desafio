@@ -16,7 +16,7 @@ import {
     AddText,
 } from './styles';
 
-class Main extends React.Component {
+export class Main extends React.Component {
     state = {
         products: [],
     };
