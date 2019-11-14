@@ -1,6 +1,10 @@
 import React from 'react';
 import { Text, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as CartActions from '../../store/modules/Cart/actions';
 
 import api from '../../services/api';
 
@@ -14,15 +18,22 @@ import {
     ProductAmount,
     Amount,
     AddText,
+    GoToCart,
 } from './styles';
 
-export class Main extends React.Component {
+class Main extends React.Component {
     state = {
         products: [],
     };
 
     componentDidMount() {
         this.getProducts();
+    }
+
+    handleNavigation(page) {
+        const { navigation } = this.props;
+
+        navigation.navigate(page);
     }
 
     getProducts = async () => {
@@ -41,11 +52,15 @@ export class Main extends React.Component {
         }
     };
 
-    addProduct = product => {
-        console.log('click');
+    addProduct = id => {
+        const { addToCartRequest } = this.props;
+
+        addToCartRequest(id);
     };
 
     renderProduct = ({ item }) => {
+        const { amount } = this.props;
+
         return (
             <Product>
                 <ProductImage
@@ -55,10 +70,10 @@ export class Main extends React.Component {
                 />
                 <ProductTitle>{item.title}</ProductTitle>
                 <ProductPrice>{'R$ ' + item.price}</ProductPrice>
-                <ProductButton onPress={() => this.addProduct(item)}>
+                <ProductButton onPress={() => this.addProduct(product.id)}>
                     <ProductAmount>
                         <Icon name="add-shopping-cart" color="#fff" size={20} />
-                        <Amount>{item.amount ? item.amount : 0}</Amount>
+                        <Amount>{amount[item.id] ? amount[item.id] : 0}</Amount>
                     </ProductAmount>
 
                     <AddText>Adicionar</AddText>
@@ -75,12 +90,26 @@ export class Main extends React.Component {
                 <FlatList
                     horizontal
                     data={products}
+                    extraData={this.props}
                     keyExtractor={item => String(item.id)}
                     renderItem={this.renderProduct}
                 />
+                <GoToCart onPress={() => this.handleNavigation('Cart')}>
+                    <AddText>Ir para o Carrinho</AddText>
+                </GoToCart>
             </Container>
         );
     }
 }
 
-export default Main;
+const mapStateToProps = state => ({
+    amount: state.cart.reduce((amount, product) => {
+        amount[product.id] = product.amount;
+    }, {}),
+});
+
+const mapDispatchToProps = dispatch => {
+    bindActionCreators(CartActions, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

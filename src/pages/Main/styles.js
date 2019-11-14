@@ -64,3 +64,15 @@ export const AddText = styled.Text`
     color: #fff;
     text-transform: uppercase;
 `;
+
+export const GoToCart = styled.TouchableOpacity`
+    width: 80%;
+    height: 50px;
+    background-color: #7159c1;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 10px;
+    border-radius: 4px;
+`;
