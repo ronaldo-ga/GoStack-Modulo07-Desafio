@@ -71,16 +71,18 @@ class Cart extends Component {
     };
 
     render() {
+        const { products, total } = this.props;
+
         return (
             <Container>
                 <FlatList
                     vertical
                     renderItem={this.renderProducts}
-                    data={this.state.products}
-                    keyExtractor={item => item}
+                    data={products}
+                    keyExtractor={item => item.id}
                 />
                 <TotalTitle>Total</TotalTitle>
-                <TotalAmount>{'R$' + this.props.total}</TotalAmount>
+                <TotalAmount>{'R$' + total}</TotalAmount>
                 <EndButton style={{ marginBottom: 0 }}>
                     <EndButtomText>Finalizar Pedido</EndButtomText>
                 </EndButton>

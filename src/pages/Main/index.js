@@ -9,6 +9,7 @@ import * as CartActions from '../../store/modules/Cart/actions';
 import api from '../../services/api';
 
 import {
+    Wrapper,
     Container,
     Product,
     ProductImage,
@@ -86,18 +87,20 @@ class Main extends React.Component {
         const { products } = this.state;
 
         return (
-            <Container>
-                <FlatList
-                    horizontal
-                    data={products}
-                    extraData={this.props}
-                    keyExtractor={item => String(item.id)}
-                    renderItem={this.renderProduct}
-                />
-                <GoToCart onPress={() => this.handleNavigation('Cart')}>
-                    <AddText>Ir para o Carrinho</AddText>
-                </GoToCart>
-            </Container>
+            <Wrapper>
+                <Container>
+                    <FlatList
+                        horizontal
+                        data={products}
+                        extraData={this.props}
+                        keyExtractor={item => String(item.id)}
+                        renderItem={this.renderProduct}
+                    />
+                    <GoToCart onPress={() => this.handleNavigation('Cart')}>
+                        <AddText>Ir para o Carrinho</AddText>
+                    </GoToCart>
+                </Container>
+            </Wrapper>
         );
     }
 }
